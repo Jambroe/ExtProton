@@ -10,6 +10,10 @@ include $(srctree)/lib/vdso/Makefile
 
 # Same as cc-*option, but using CC_COMPAT instead of CC
 ifeq ($(CONFIG_CC_IS_CLANG), y)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4d0501afdf5e (arm64: vdso32: require CROSS_COMPILE_COMPAT for gcc+bfd)
 CC_COMPAT ?= $(CC)
 CC_COMPAT += --target=arm-linux-gnueabi
 else
