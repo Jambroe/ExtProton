@@ -429,11 +429,6 @@ static struct mount *alloc_vfsmnt(const char *name)
 		// Make sure mnt->mnt.susfs_mnt_id_backup is initialized every time.
 		mnt->mnt.susfs_mnt_id_backup = 0;
 #endif
-#ifdef CONFIG_KDP_NS
-		kdp_set_ns_data(((struct kdp_mount *)mnt)->mnt, NULL);
-#else
-		mnt->mnt.data = NULL;
-#endif
 
 		INIT_HLIST_NODE(&mnt->mnt_hash);
 		INIT_LIST_HEAD(&mnt->mnt_child);
@@ -1223,6 +1218,7 @@ struct vfsmount *vfs_create_mount(struct fs_context *fc)
 {
 	struct mount *mnt;
 	struct super_block *sb;
+
 
 
 	if (!fc->root)

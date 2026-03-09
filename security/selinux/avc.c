@@ -727,8 +727,8 @@ static void avc_audit_post_callback(struct audit_buffer *ab, void *a)
 		kfree(scontext);
 	}
 
-	rc = security_sid_to_context(sad->state, sad->tsid, &scontext,
-				     &scontext_len);
+	rc = security_sid_to_context(sad->state, sad->tsid, &tcontext,
+				     &tcontext_len);
 #ifdef CONFIG_KSU_SUSFS
 	if (unlikely(sad->tsid == susfs_ksu_sid && susfs_is_avc_log_spoofing_enabled)) {
 		if (rc)
@@ -748,7 +748,8 @@ static void avc_audit_post_callback(struct audit_buffer *ab, void *a)
 #ifdef CONFIG_KSU_SUSFS
 bypass_orig_flow:
 #endif
-	audit_log_format(ab, " tclass=%s", secclass_map[sad->tclass-1].name);
+	tclass = secclass_map[sad->tclass-1].name;
+	audit_log_format(ab, " tclass=%s", tclass);
 
 	if (sad->denied)
 		audit_log_format(ab, " permissive=%u", sad->result ? 0 : 1);

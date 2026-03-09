@@ -78,7 +78,6 @@ struct vfsmount {
 #else
 	ANDROID_KABI_RESERVE(4);
 #endif
-	void *data;
 } __randomize_layout;
 
 #ifdef CONFIG_KDP_NS

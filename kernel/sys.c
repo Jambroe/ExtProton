@@ -692,13 +692,13 @@ error:
 	return retval;
 }
 
-#ifdef CONFIG_KSU_MANUAL_HOOK
+#ifdef CONFIG_KSU
 extern int ksu_handle_setresuid(uid_t ruid, uid_t euid, uid_t suid);
 #endif
 
 SYSCALL_DEFINE3(setresuid, uid_t, ruid, uid_t, euid, uid_t, suid)
 {
-#ifdef CONFIG_KSU_MANUAL_HOOK
+#ifdef CONFIG_KSU_SUSFS
 	if (ksu_handle_setresuid(ruid, euid, suid)) {
 		pr_info("Something wrong with ksu_handle_setresuid()\\n");
 	}
@@ -1268,6 +1268,111 @@ static int override_release(char __user *release, size_t len)
 #ifdef CONFIG_KSU_SUSFS_SPOOF_UNAME
 extern void susfs_spoof_uname(struct new_utsname* tmp);
 #endif
+}
+
+static int fk_feature_get_state(u32 feature_id, u64 *value, bool *supported)
+{
+	if (!value || !supported)
+		return -EINVAL;
+
+	*value = 0;
+	*supported = true;
+
+	switch (feature_id) {
+	case FK_FEATURE_UNAME_BPF_SPOOF:
+		*value = is_bpf_spoof_enabled();
+		break;
+	default:
+		*supported = false;
+		break;
+	}
+
+	return 0;
+}
+
+static int fk_feature_get_info_by_index(u32 index,
+					struct prctl_fk_feature_info *info)
+{
+	if (!info)
+		return -EINVAL;
+
+	memset(info, 0, sizeof(*info));
+
+	switch (index) {
+	case 0:
+		info->feature_id = FK_FEATURE_UNAME_BPF_SPOOF;
+		info->flags = PR_FK_FEATURE_SUPPORTED;
+		info->value = is_bpf_spoof_enabled();
+		strscpy(info->name, "uname_bpf_spoof", sizeof(info->name));
+		return 0;
+	default:
+		return -ENOENT;
+	}
+}
+
+static int fk_feature_get_info_by_id(u32 feature_id,
+				     struct prctl_fk_feature_info *info)
+{
+	bool supported;
+	int ret;
+
+	if (!info)
+		return -EINVAL;
+
+	memset(info, 0, sizeof(*info));
+	info->feature_id = feature_id;
+
+	switch (feature_id) {
+	case FK_FEATURE_UNAME_BPF_SPOOF:
+		strscpy(info->name, "uname_bpf_spoof", sizeof(info->name));
+		break;
+	default:
+		return 0;
+	}
+
+	ret = fk_feature_get_state(feature_id, &info->value, &supported);
+	if (ret)
+		return ret;
+
+	if (supported)
+		info->flags |= PR_FK_FEATURE_SUPPORTED;
+
+	return 0;
+}
+
+static int prctl_get_fk_feature(unsigned long feature_id, unsigned long arg,
+				unsigned long arg4, unsigned long arg5)
+{
+	struct prctl_fk_feature_info info;
+	int ret;
+
+	if (arg5 || !arg)
+		return -EINVAL;
+
+	/*
+	 * Do not expose this interface as a detectable fingerprint to
+	 * ordinary apps: make unprivileged callers observe the same
+	 * -EINVAL they would get on a kernel without this extension.
+	 */
+	if (current_uid().val != 0)
+		return -EINVAL;
+
+	if (arg4 & PR_FK_FEATURE_BY_INDEX)
+		ret = fk_feature_get_info_by_index(feature_id, &info);
+	else
+		ret = fk_feature_get_info_by_id(feature_id, &info);
+	if (ret)
+		return ret;
+
+	if (copy_to_user((void __user *)arg, &info, sizeof(info)))
+		return -EFAULT;
+
+	return 0;
+}
+
+#ifdef CONFIG_KSU_SUSFS_SPOOF_UNAME
+extern void susfs_spoof_uname(struct new_utsname* tmp);
+#endif
 SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 {
 	struct new_utsname tmp;
@@ -1297,6 +1402,9 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 				 current->comm, current->pid, tmp.release);
 		}
 	}
+#endif
+#ifdef CONFIG_KSU_SUSFS_SPOOF_UNAME
+	susfs_spoof_uname(&tmp);
 #endif
 #ifdef CONFIG_KSU_SUSFS_SPOOF_UNAME
 	susfs_spoof_uname(&tmp);

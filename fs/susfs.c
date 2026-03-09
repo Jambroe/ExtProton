@@ -372,7 +372,10 @@ bool susfs_is_inode_sus_path(struct inode *inode) {
 
 /* sus_mount */
 #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
-bool susfs_hide_sus_mnts_for_non_su_procs = true; // hide sus mounts for all processes by default
+static DEFINE_SPINLOCK(susfs_spin_lock_sus_mount);
+// - Default to false now so zygisk can pick up the sus mounts without the need to turn it off manually in post-fs-data stage
+//   otherwise user needs to turn it on in post-fs-data stage and turn it off in boot-completed stage
+bool susfs_hide_sus_mnts_for_non_su_procs = false;
 
 void susfs_set_hide_sus_mnts_for_non_su_procs(void __user **user_info) {
 	struct st_susfs_hide_sus_mnts_for_non_su_procs info = {0};
@@ -1205,6 +1208,7 @@ void susfs_init(void) {
 /* No module exit is needed becuase it should never be a loadable kernel module */
 //void __init susfs_exit(void)
 
+<<<<<<< HEAD
 #if defined(CONFIG_KSU_SUKI) && defined(CONFIG_KSU_SUSFS)
 /* SukiSU legacy integration keys injected without triggering inline constraints */
 DEFINE_STATIC_KEY_FALSE(ksu_init_rc_hook_key_false);
@@ -1217,3 +1221,5 @@ EXPORT_SYMBOL(ksu_init_rc_hook);
 DEFINE_STATIC_KEY_FALSE(ksu_input_hook_key_false);
 EXPORT_SYMBOL(ksu_input_hook_key_false);
 #endif
+=======
+>>>>>>> afb160f36960 (kernel: Import SUSFS v2.0.0)
