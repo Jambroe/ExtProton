@@ -31,62 +31,34 @@ choice
 config MALI_DDK_NONE
 	bool "None"
 
-config MALI_DDK_VALHALL_R20P0
-	bool "Valhall r20p0"
-
-config MALI_DDK_VALHALL_R23P0
-	bool "Valhall r23p0 driver"
-
-config MALI_DDK_VALHALL_R24P0
-	bool "Valhall r24p0 driver"
-
-config MALI_DDK_VALHALL_R25P1
-	bool "Valhall r25p1 driver"
-
-config MALI_DDK_VALHALL_R26P0
-	bool "Valhall r26p0 driver"
-
-config MALI_DDK_VALHALL_R32P1
-	bool "Valhall r32p1 driver"
-
 config MALI_DDK_VALHALL_R38P0
 	bool "Valhall r38p0 driver"
 
 config MALI_DDK_VALHALL_R38P1
 	bool "Valhall r38p1 driver"
 
+config MALI_DDK_VALHALL_R44P1
+        bool "Valhall r44p1 driver"
+
+config MALI_DDK_VALHALL_R54P3
+        bool "Valhall r54p3 driver"
+
 endchoice
-
-if MALI_DDK_VALHALL_R20P0
-source "drivers/gpu/arm/v_r20p0/Kconfig"
-endif
-
-if MALI_DDK_VALHALL_R23P0
-source "drivers/gpu/arm/v_r23p0/Kconfig"
-endif
-
-if MALI_DDK_VALHALL_R24P0
-source "drivers/gpu/arm/v_r24p0/Kconfig"
-endif
-
-if MALI_DDK_VALHALL_R25P1
-source "drivers/gpu/arm/bv_r25p1/Kconfig"
-endif
-
-if MALI_DDK_VALHALL_R26P0
-source "drivers/gpu/arm/bv_r26p0/Kconfig"
-endif
-
-if MALI_DDK_VALHALL_R32P1
-source "drivers/gpu/arm/bv_r32p1/Kconfig"
-endif
 
 if MALI_DDK_VALHALL_R38P0
 source "drivers/gpu/arm/bv_r38p0/Kconfig"
 endif
 
 if MALI_DDK_VALHALL_R38P1
-source "drivers/gpu/arm/bv_r38p1/Kconfig"
+source "drivers/gpu/arm/v_r38p1/Kconfig"
+endif
+
+if MALI_DDK_VALHALL_R44P1
+source "drivers/gpu/arm/v_r44p1/Kconfig"
+endif
+
+if MALI_DDK_VALHALL_R54P3
+source "drivers/gpu/arm/v_r54p3/Kconfig"
 endif
 
 endmenu

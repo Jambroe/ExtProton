@@ -20,6 +20,7 @@
  */
 
 #include <mali_kbase.h>
+#include <linux/trace_events.h>
 #include <mali_kbase_config_defaults.h>
 #include <hw_access/mali_kbase_hw_access_regmap.h>
 #include <mali_kbase_gator.h>

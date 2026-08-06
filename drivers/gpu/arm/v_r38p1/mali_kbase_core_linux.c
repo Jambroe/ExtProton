@@ -20,6 +20,7 @@
  */
 
 #include <mali_kbase.h>
+#include <linux/trace_events.h>
 #include <mali_kbase_config_defaults.h>
 #include <gpu/mali_kbase_gpu_regmap.h>
 #include <mali_kbase_gator.h>
