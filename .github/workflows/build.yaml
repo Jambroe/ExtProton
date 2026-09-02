@@ -1,47 +1,47 @@
-name: Kernel Build CI
+name: Kernel Build
 
 on:
-  push:
-    branches:
-      - proton
-  pull_request:
-    branches:
-      - proton
+  workflow_dispatch:
 
 jobs:
-  build-kernel:
+  build:
     runs-on: ubuntu-24.04
 
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - model: exynos2100
+            branch: testing
+            variant: KSU
+    
     steps:
-      - name: Checkout main repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ matrix.branch }}
+        fetch-depth: 0
+        submodules: recursive
+        path: proton2100
 
-      - name: Clone private repo ProtonKernel/ids
-        run: |
-          git clone https://x-access-token:${{ secrets.IDS_TOKEN }}@github.com/ProtonKernel/ids ../ids
+    - name: Update apt
+      run: sudo apt-get update
 
-      - name: Build with -tlcRk
-        run: |
-          export WP="$(realpath $PWD/../)"
-          bash build/ckbuild.sh -tcRk
-          echo "ZIP_PATH_K=$ZIP_PATH" >> $GITHUB_ENV
-          cp "$ZIP_PATH" ../kernel-build-k.zip
+    - name: Install dependencies
+      run: |
+        sudo apt-get install -y \
+          build-essential openjdk-8-jdk maven cmake byacc flex automake libtool-bin \
+          bison binutils-dev libiberty-dev zip unzip libncurses5-dev curl git ninja-build \
+          python3 libssl-dev gcc-aarch64-linux-gnu cpio gawk libarchive-tools lz4 repo
 
-      - name: Upload build with -k
-        uses: actions/upload-artifact@v4
-        with:
-          name: kernel-build-k
-          path: ../kernel-build-k.zip
-
-      - name: Build with -tlcR
-        run: |
-          export WP="$(realpath $PWD/../)"
-          bash build/ckbuild.sh -tcR
-          echo "ZIP_PATH_NOK=$ZIP_PATH" >> $GITHUB_ENV
-          cp "$ZIP_PATH" ../kernel-build-nok.zip
-
-      - name: Upload build sin -k
-        uses: actions/upload-artifact@v4
-        with:
-          name: kernel-build-nok
-          path: ../kernel-build-nok.zip
+    - name: Run kernel build
+      working-directory: ./proton2100
+      run: |
+        chmod +x ./do_build.sh
+        ./do_build.sh
+      
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ProtonPlus_v6.1.1-${{ matrix.model }}-${{ matrix.variant }}-${{ matrix.branch }}
+        path: proton2100/build/ProtonPlus_v6.1.1-${{ matrix.variant }}-${{ matrix.model }}-*.zip
