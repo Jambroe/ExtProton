@@ -32,7 +32,7 @@ typedef struct _gpu_clock_info {
 } gpu_clock_info;
 
 struct _clock_info {
-	struct kbase_device *kbdev;
+	struct device *dev;
 	int gpu_max_clock;
 	int gpu_min_clock;
 	int gpu_max_clock_limit;
