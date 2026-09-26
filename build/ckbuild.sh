@@ -19,7 +19,6 @@ C_BOLD="\033[1m"
 AOSP_REPO="https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/heads/master"
 AOSP_ARCHIVE="https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/master"
 PC_REPO="https://github.com/kdrag0n/proton-clang"
-LZ_REPO="https://gitlab.com/Jprimero15/lolz_clang.git"
 
 # Other
 DEFAULT_DEFCONFIG="proton_defconfig"
@@ -60,7 +59,7 @@ export PATH="$(pwd)/build/bin:$PATH"
 TC_DIR="$WP/toolchains"
 AC_DIR="$TC_DIR/aospclang"
 PC_DIR="$TC_DIR/protonclang"
-LZ_DIR="$TC_DIR/lolzclang"
+NEU_DIR="$TC_DIR/neutronclang"
 AK3_DIR="$WP/AK3-r9s"
 AK3_BRANCH="r9s"
 KDIR="$(readlink -f .)"
@@ -117,8 +116,8 @@ DO_ZIP="1"
 # Upload build log
 BUILD_LOG=1
 
-# Pick aosp, proton or lolz
-CLANG_TYPE=aosp
+# Pick aosp, proton or neutron
+CLANG_TYPE=neutron
 
 ## Info message
 LINKER="${LINKER:-ld.lld}"
@@ -282,7 +281,7 @@ get_toolchain() {
         if ! [ -d "$AC_DIR" ]; then
             # --- MODIFICATION START ---
             # Hardcode the specific AOSP Clang version and URL
-            AOSP_CLANG_VERSION="clang-r596125"
+            AOSP_CLANG_VERSION="clang-r614150"
             AOSP_CLANG_URL="https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/mirror-goog-main-llvm-toolchain-source/${AOSP_CLANG_VERSION}.tar.gz"
             AOSP_CLANG_TARBALL="${AOSP_CLANG_VERSION}.tar.gz"
 
@@ -323,11 +322,11 @@ get_toolchain() {
         fi
     fi
 
-    # Lolz Clang
-    if [[ $1 = "lolz" ]]; then
-        if ! [ -d "$LZ_DIR" ]; then
-            echo -e "\n${C_CYAN}INFO:${C_RST} Lolz Clang not found! Cloning to $LZ_DIR..."
-            if ! git clone -q --depth=1 $LZ_REPO $LZ_DIR; then
+    # Neutron Clang
+    if [[ $1 = "neutron" ]]; then
+        if ! [ -d "$NEU_DIR" ]; then
+            echo -e "\n${C_CYAN}INFO:${C_RST} Neutron Clang not found! Cloning to $NEU_DIR..."
+            if ! bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S $NEU_DIR; then
                 echo -e "\n${C_RED}ERROR:${C_RST} Cloning failed! Aborting..."
                 exit 1
             fi
@@ -344,10 +343,10 @@ prep_toolchain() {
         CLANG_DIR="$PC_DIR"
         CCARM64_PREFIX=aarch64-linux-gnu-
         echo -e "\n${C_CYAN}INFO:${C_RST} Using Proton Clang..."
-    elif [[ $1 = "lolz" ]]; then
-        CLANG_DIR="$LZ_DIR"
+    elif [[ $1 = "neutron" ]]; then
+        CLANG_DIR="$NEU_DIR"
         CCARM64_PREFIX=aarch64-linux-gnu-
-        echo -e "\n${C_CYAN}INFO:${C_RST} Using Lolz Clang..."
+        echo -e "\n${C_CYAN}INFO:${C_RST} Using Neutron Clang..."
     fi
 
     ## Set PATH
