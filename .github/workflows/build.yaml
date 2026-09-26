@@ -12,7 +12,7 @@ jobs:
       matrix:
         include:
           - model: exynos2100
-            branch: testing
+            branch: 2Buggy
             variant: KSU
     
     steps:
