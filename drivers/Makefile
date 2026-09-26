@@ -254,4 +254,4 @@ obj-y += uwb/uwb_logger/ # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 obj-y += uwb/ # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 obj-y += vibrator/cs40l2x/ # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 
-obj-$(CONFIG_KSU) += kernelsu/kernel/
+obj-$(CONFIG_RKSU) += kernelsu/kernel/

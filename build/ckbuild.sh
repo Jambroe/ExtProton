@@ -127,7 +127,7 @@ CODENAME="exynos2100"
 
 ## Parse arguments
 # Default values
-DO_KSU=1
+DO_RKSU=1
 DO_CLEAN=0
 DO_MENUCONFIG=0
 IS_RELEASE=0
@@ -149,8 +149,8 @@ while [[ "$1" == -* ]]; do
                 DO_MENUCONFIG=1
                 ;;
             k)
-                echo -e "\n${C_CYAN}INFO:${C_RST} KernelSU argument passed, a KernelSU build will be made..."
-                DO_KSU=1
+                echo -e "\n${C_CYAN}INFO:${C_RST} ReSukiSU argument passed, a ResukiSu build will be made..."
+                DO_RKSU=1
                 ;;
             c)
                 echo -e "\n${C_CYAN}INFO:${C_RST} clean argument passed, output directory will be wiped..."
@@ -246,8 +246,8 @@ fi
 LINUX_VER=$(make kernelversion 2>/dev/null)
 
 FK_TYPE=""
-if [ $DO_KSU -eq 1 ]; then
-    FK_TYPE="KSU"
+if [ $DO_RKSU -eq 1 ]; then
+    FK_TYPE="ReSUkiSU"
 else
     FK_TYPE="Non-root"
 fi
@@ -423,14 +423,14 @@ build() {
     rm -f $OUT_KERNEL
     rm -rf "$MOD_OUTDIR"
 
-    make -j$(nproc --all) O=out CC="clang" LD="$LINKER" CROSS_COMPILE="$CCARM64_PREFIX" $DEFCONFIG $([[ "$DO_KSU" == "1" ]] && echo "ksu.config") 2>&1 | tee log.txt
+    make -j$(nproc --all) O=out CC="clang" LD="$LINKER" CROSS_COMPILE="$CCARM64_PREFIX" $DEFCONFIG $([[ "$DO_RKSU" == "1" ]] && echo "sukisu.config") 2>&1 | tee log.txt
 
     if [ $DO_MENUCONFIG = "1" ]; then
         make O=out LD="$LINKER" menuconfig 2>&1 >> log.txt
     fi
 
     if [[ "$DO_REGEN" = "1" ]]; then
-        if [[ "$DO_KSU" = "1" ]]; then
+        if [[ "$DO_RKSU" = "1" ]]; then
             echo -e "${C_RED}ERROR:${C_RST} Can't regenerate with KSU argument"
             exit 1
         fi
