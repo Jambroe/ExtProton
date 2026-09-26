@@ -5,8 +5,17 @@ on:
     branches: ["proton-new"]
 
 jobs:
-  check_the_secret:
-    runs-on: ubuntu-latest
+  build-kernel:
+    runs-on: ubuntu-26.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - model: exynos2100
+            branch: 1Lama_Up
+            variant: KSU
+    
     steps:
          - run: echo ${{vars.CHAT_ID}}
 
