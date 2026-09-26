@@ -325,6 +325,7 @@ get_toolchain() {
     # Neutron Clang
     if [[ $1 = "neutron" ]]; then
         if ! [ -d "$NEU_DIR" ]; then
+            mkdir -p "$NEU_DIR"
             echo -e "\n${C_CYAN}INFO:${C_RST} Neutron Clang not found! Cloning to $NEU_DIR..."
             if ! env --chdir=$NEU_DIR bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S; then
                 echo -e "\n${C_RED}ERROR:${C_RST} Cloning failed! Aborting..."
