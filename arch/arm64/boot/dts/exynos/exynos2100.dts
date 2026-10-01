@@ -3439,7 +3439,7 @@
 		#cooling-cells = <2>;
 		ect-coeff-index = <3>;
 		governor = "interactive";
-		interactive_info = <767000 45 0>;
+		interactive_info = <585000 45 0>;
 		gpu_dvfs_table_size = <10 9>;
         gpu_dvfs_table = <949000 80 100 5 3172000 858000 0 0 16 858000 78 100 5 3172000 858000 0 0 16 767000 78 93 5 2730000 858000 0 0 16 676000 78 95 3 2535000 858000 0 0 16 585000 78 95 1 2288000 858000 0 0 16 494000 78 95 1 2028000 858000 0 0 16 403000 78 95 1 2028000 858000 0 0 0 312000 78 90 1 1539000 0 0 0 0 221000 78 85 1 1014000 0 0 0 0 130000 0 85 1 676000 0 0 0 0>;
         gpu_cl_pmqos_table_size = <10 5>;
@@ -3457,7 +3457,7 @@
 		gpu_voltage_offset_margin = <37500>;
 		gpu_tmu_control = <1>;
 		gpu_temp_throttling_level_num = <6>;
-		gpu_temp_throttling = <949000 949000 949000 949000 949000 858000>;
+		gpu_temp_throttling = <949000 949000 949000 949000 858000 858000>;
 		gpu_power_coeff = <625>;
 		gpu_dvfs_time_interval = <5>;
 		gpu_default_wakeup_lock = <1>;
@@ -14038,12 +14038,12 @@
 			sibling-cpus = "0-3";
 			cal-id = <0xb040002>;
 			dm-type = <0x00>;
-			max-freq = <2210000>;
+			max-freq = <2600000>;
 			min-freq = <533000>;
 			#cooling-cells = <0x02>;
 			ect-coeff-index = <0x02>;
 			tz-cooling-name = "LITTLE";
-			freq-table = <533000 650000 754000 858000 962000 1066000 1170000 1274000 1378000 1482000 1586000 1690000 1794000 1898000 2002000 2106000 2210000>;
+			freq-table = <533000 650000 754000 858000 962000 1066000 1170000 1274000 1378000 1482000 1586000 1690000 1794000 1898000 2002000 2106000 2210000 2392000 2496000 2600000>;
 			phandle = <0x18e>;
 
 			dm-constraints {
@@ -14055,12 +14055,12 @@
 			sibling-cpus = "4-6";
 			cal-id = <0xb040003>;
 			dm-type = <0x01>;
-			max-freq = <2808000>;
+			max-freq = <3040000>;
 			min-freq = <533000>;
 			#cooling-cells = <0x02>;
 			ect-coeff-index = <0x01>;
 			tz-cooling-name = "MID";
-			freq-table = <533000 624000 728000 832000 936000 1040000 1144000 1248000 1352000 1456000 1560000 1664000 1768000 1872000 1976000 2080000 2184000 2288000 2392000 2496000 2600000 2704000 2808000>;
+			freq-table = <533000 624000 728000 832000 936000 1040000 1144000 1248000 1352000 1456000 1560000 1664000 1768000 1872000 1976000 2080000 2184000 2288000 2392000 2496000 2600000 2704000 2808000 2912000 2990000 3040000>;
 			phandle = <0x18b>;
 
 			dm-constraints {
@@ -14072,12 +14072,12 @@
 			sibling-cpus = [37 00];
 			cal-id = <0xb040004>;
 			dm-type = <0x02>;
-			max-freq = <2912000>;
+			max-freq = <3240000>;
 			min-freq = <1040000>;
 			#cooling-cells = <0x02>;
 			ect-coeff-index = <0x00>;
 			tz-cooling-name = "BIG";
-			freq-table = <1040000 1144000 1248000 1352000 1456000 1560000 1664000 1768000 1872000 1976000 2080000 2184000 2288000 2392000 2496000 2600000 2704000 2808000 2912000>;
+			freq-table = <1040000 1144000 1248000 1352000 1456000 1560000 1664000 1768000 1872000 1976000 2080000 2184000 2288000 2392000 2496000 2600000 2704000 2808000 2912000 2990000 3040000 3240000>;
 			phandle = <0x188>;
 
 			dm-constraints {
@@ -19891,42 +19891,42 @@
 				};
 
 				big-control-temp {
-					temperature = <0x11170>;
+					temperature = <0x14c08>;
 					hysteresis = <0x1388>;
 					type = "passive";
 					phandle = <0x187>;
 				};
 
 				big-alert0 {
-					temperature = <0x17318>;
+					temperature = <0x186a0>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x356>;
 				};
 
 				big-alert1 {
-					temperature = <0x186a0>;
+					temperature = <0x19a28>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x357>;
 				};
 
 				big-alert2 {
-					temperature = <0x19a28>;
+					temperature = <0x1adb0>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x358>;
 				};
 
 				big-alert3 {
-					temperature = <0x1adb0>;
+					temperature = <0x1c138>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x359>;
 				};
 
 				big-hot {
-					temperature = <0x1c138>;
+					temperature = <0x1d4c0>;
 					hysteresis = <0x1388>;
 					type = "hot";
 					phandle = <0x35a>;
@@ -19966,42 +19966,42 @@
 				};
 
 				mid-control-temp {
-					temperature = <0x11170>;
+					temperature = <0x14c08>;
 					hysteresis = <0x1388>;
 					type = "passive";
 					phandle = <0x18a>;
 				};
 
 				mid-alert0 {
-					temperature = <0x17318>;
+					temperature = <0x186a0>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x35e>;
 				};
 
 				mid-alert1 {
-					temperature = <0x186a0>;
+					temperature = <0x19a28>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x35f>;
 				};
 
 				mid-alert2 {
-					temperature = <0x19a28>;
+					temperature = <0x1adb0>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x360>;
 				};
 
 				mid-alert3 {
-					temperature = <0x1adb0>;
+					temperature = <0x1c138>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x361>;
 				};
 
 				mid-hot {
-					temperature = <0x1c138>;
+					temperature = <0x1d4c0>;
 					hysteresis = <0x1388>;
 					type = "hot";
 					phandle = <0x362>;
@@ -20034,42 +20034,42 @@
 				};
 
 				little-alert1 {
-					temperature = <0x128e0>;
+					temperature = <0x14c08>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x18f>;
 				};
 
 				little-alert2 {
-					temperature = <0x13c68>;
+					temperature = <0x15f90>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x190>;
 				};
 
 				little-alert3 {
-					temperature = <0x14ff0>;
+					temperature = <0x17318>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x191>;
 				};
 
 				little-alert4 {
-					temperature = <0x16378>;
+					temperature = <0x186a0>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x192>;
 				};
 
 				little-alert5 {
-					temperature = <0x17700>;
+					temperature = <0x19a28>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x193>;
 				};
 
 				little-alert6 {
-					temperature = <0x18a88>;
+					temperature = <0x1c138>;
 					hysteresis = <0x1388>;
 					type = "active";
 					phandle = <0x194>;
@@ -20151,7 +20151,7 @@
 				};
 
 				gpu-control-temp {
-					temperature = <0x11170>;
+					temperature = <0x14c08>;
 					hysteresis = <0x1388>;
 					type = "passive";
 					phandle = <0x197>;

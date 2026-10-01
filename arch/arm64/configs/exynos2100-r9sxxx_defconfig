@@ -2,11 +2,11 @@
 # Automatically generated file; DO NOT EDIT.
 # Linux/arm64 5.4.290 Kernel Configuration
 #
-CONFIG_CC_VERSION_TEXT="Android (12806354, +pgo, +bolt, +lto, +mlgo, based on r547379) clang version 20.0.0 (https://android.googlesource.com/toolchain/llvm-project b718bcaf8c198c82f3021447d943401e3ab5bd54)"
+CONFIG_CC_VERSION_TEXT="Android (06092026 +pgo, +bolt, +lto, +thin, +mlgo, based on neutron) clang version 24.0.0git (https://github.com/llvm/llvm-project f42c87ba2c70219b1f4ad1f031a5b6a1ea6603fb)"
 CONFIG_GCC_VERSION=0
 CONFIG_CC_IS_CLANG=y
 CONFIG_LD_IS_LLD=y
-CONFIG_CLANG_VERSION=200000
+CONFIG_CLANG_VERSION=240000
 CONFIG_CC_CAN_LINK=y
 CONFIG_CC_HAS_ASM_GOTO=y
 CONFIG_CC_HAS_ASM_GOTO_TIED_OUTPUT=y
@@ -112,8 +112,10 @@ CONFIG_RCU_NEED_SEGCBLIST=y
 CONFIG_RCU_FANOUT=64
 CONFIG_RCU_FANOUT_LEAF=16
 CONFIG_RCU_FAST_NO_HZ=y
-# CONFIG_RCU_BOOST is not set
+CONFIG_RCU_BOOST=y
+CONFIG_RCU_BOOST_DELAY=500
 CONFIG_RCU_NOCB_CPU=y
+CONFIG_RCU_LAZY=y
 # end of RCU Subsystem
 
 CONFIG_IKCONFIG=y
