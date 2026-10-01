@@ -1,41 +1,30 @@
 name: "Build"
 
 on:
-  push:
-    branches: ["proton-new"]
-
+  workflow_dispatch:
+    inputs:
+      arg_name:
+        description: "Arguments Options"
+        required: true
+        default: tkR
 jobs:
-  build-kernel:
-    runs-on: ubuntu-26.04
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - model: exynos2100
-            branch: 1Lama_Up
-            variant: KSU
-    
-    steps:
-         - run: echo ${{vars.CHAT_ID}}
-
   building:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
          - uses: actions/checkout@v4
     
-         - run: export WP="$(realpath $PWD/../)"; bash build/ckbuild_actions.sh -tkR
+         - run: export WP="$(realpath $PWD/../)"; bash build/ckbuild_actions.sh -${{ github.event.inputs.arg_name }}
     
-         - name: Upload
+         - name: Upload Aosp Clang
            uses: actions/upload-artifact@v4
            with:
-            name: $ZIP_PATH
+            name: aosp-$ZIP_PATH
             path: $ZIP_PATH
 
-         - run: export WP="$(realpath $PWD/../)"; bash build/ckbuild_actions.sh -tR
+         - run: export WP="$(realpath $PWD/../)"; bash build/ckbuild_actions.sh -${{ github.event.inputs.arg_name }} -n
 
-         - name: Upload
+         - name: Upload Neutron Clang
            uses: actions/upload-artifact@v4
            with:
-            name: $ZIP_PATH
+            name: neutron-$ZIP_PATH
             path: $ZIP_PATH
