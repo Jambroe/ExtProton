@@ -10,21 +10,48 @@ on:
 jobs:
   building:
     runs-on: ubuntu-26.04
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - clang: aosp
+            branch: Lima
+          - clang: neutron
+            branch: Lima
+
     steps:
-         - uses: actions/checkout@v4
-    
-         - run: export WP="$(realpath $PWD/../)"; bash build/ckbuild_actions.sh -${{ github.event.inputs.arg_name }}
-    
-         - name: Upload Aosp Clang
-           uses: actions/upload-artifact@v4
-           with:
-            name: aosp-$ZIP_PATH
-            path: $ZIP_PATH
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ matrix.branch }}
+        fetch-depth: 0
+        submodules: recursive
+        
+    - name: Update apt
+      run: sudo apt-get update
+      
+    - name: Install dependencies
+      run: |
+        sudo apt-get install -y \
+          build-essential openjdk-8-jdk maven cmake byacc flex automake libtool-bin \
+          bison binutils-dev libiberty-dev zip unzip libncurses5-dev curl git ninja-build \
+          python3 libssl-dev gcc-aarch64-linux-gnu cpio gawk libarchive-tools lz4 repo
 
-         - run: export WP="$(realpath $PWD/../)"; bash build/ckbuild_actions.sh -${{ github.event.inputs.arg_name }} -n
+    - name: Set clang flags for variant
+      id: vars
+      run: |
+        if [ "${{ matrix.variant }}" = "neutron" ]; then
+          echo "FLAGS=-n" >> $GITHUB_OUTPUT
+        else
+          echo "FLAGS=" >> $GITHUB_OUTPUT
+        fi
 
-         - name: Upload Neutron Clang
-           uses: actions/upload-artifact@v4
-           with:
-            name: neutron-$ZIP_PATH
-            path: $ZIP_PATH
+    - name: Run kernel build
+      run: export WP="$(realpath $PWD/../)"; bash build/ckbuild_actions.sh -${{ github.event.inputs.arg_name }} ${{ steps.vars.outputs.FLAGS }}
+    
+    - name: Upload ${{ matrix.clang }} Clang
+      uses: actions/upload-artifact@v4
+      with:
+      name: $ZIP_PATH
+      path: $ZIP_PATH
