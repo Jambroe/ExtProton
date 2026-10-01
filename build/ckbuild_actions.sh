@@ -148,7 +148,7 @@ do
         DO_REGEN=1
     fi
     if [[ "$arg" == *n* ]]; then
-        echo -e "\nINFO: neutron clang argument passed, kernel configuration >
+        echo -e "\nINFO: neutron clang argument passed"
         CLANG_TYPE=neutron
     fi
 done
