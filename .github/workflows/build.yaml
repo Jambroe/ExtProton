@@ -49,7 +49,7 @@ jobs:
         fi
 
     - name: Run kernel build
-      run: export WP="$(realpath $PWD/../)"; bash build/ckbuild_actions.sh -${{ steps.vars.outputs.FLAGS }}${{ github.event.inputs.arg_name }}
+      run: export WP="$(realpath $PWD/../)"; bash build/ckbuild.sh -${{ steps.vars.outputs.FLAGS }}${{ github.event.inputs.arg_name }}
     
     - name: Upload Kernel
       uses: actions/upload-artifact@v4
