@@ -115,11 +115,11 @@ CODENAME="exynos2100"
 
 ## Parse arguments
 # Default values
-DO_KSU=0
+DO_KSU=1
 DO_CLEAN=0
 DO_MENUCONFIG=0
 IS_RELEASE=0
-DO_TG=0
+DO_TG=1
 DO_OSHI=0
 DO_FLTO=0
 DO_REGEN=0
