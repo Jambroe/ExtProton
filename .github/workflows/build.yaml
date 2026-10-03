@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -32,7 +32,7 @@ jobs:
         sudo apt-get install -y \
           build-essential openjdk-8-jdk maven cmake byacc flex automake libtool-bin \
           bison binutils-dev libiberty-dev zip unzip libncurses5-dev curl git ninja-build \
-          python3 libssl-dev gcc-aarch64-linux-gnu cpio gawk libarchive-tools lz4 repo
+          python3 libssl-dev gcc-aarch64-linux-gnu cpio gawk libarchive-tools lz4 repo distcc icecc
 
     - name: Run kernel build
       working-directory: ./proton2100
