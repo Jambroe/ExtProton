@@ -106,7 +106,7 @@ DO_ZIP="1"
 BUILD_LOG=1
 
 # Pick aosp, proton or neutron
-CLANG_TYPE=aosp
+CLANG_TYPE=neutron
 
 ## Info message
 LINKER=ld.lld
